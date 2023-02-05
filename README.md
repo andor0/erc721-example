@@ -22,5 +22,11 @@ cargo run
 ## Deploy smart-contract
 
 ```bash
-$(npm bin)/truffle migrate
+npx truffle migrate
+```
+
+## Formatting
+
+```bash
+make fmt
 ```

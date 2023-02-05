@@ -27,7 +27,6 @@ interface IERC721 {
         address owner,
         address operator
     ) external view returns (bool);
-
 }
 
 interface IERC721Receiver {
@@ -41,7 +40,11 @@ interface IERC721Receiver {
 
 contract ERC721 is IERC721 {
     event Transfer(address indexed from, address indexed to, uint indexed id);
-    event Approval(address indexed owner, address indexed spender, uint indexed id);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint indexed id
+    );
     event ApprovalForAll(
         address indexed owner,
         address indexed operator,
@@ -122,7 +125,12 @@ contract ERC721 is IERC721 {
 
         require(
             to.code.length == 0 ||
-                IERC721Receiver(to).onERC721Received(msg.sender, from, id, "") ==
+                IERC721Receiver(to).onERC721Received(
+                    msg.sender,
+                    from,
+                    id,
+                    ""
+                ) ==
                 IERC721Receiver.onERC721Received.selector,
             "unsafe recipient"
         );
@@ -138,7 +146,12 @@ contract ERC721 is IERC721 {
 
         require(
             to.code.length == 0 ||
-                IERC721Receiver(to).onERC721Received(msg.sender, from, id, data) ==
+                IERC721Receiver(to).onERC721Received(
+                    msg.sender,
+                    from,
+                    id,
+                    data
+                ) ==
                 IERC721Receiver.onERC721Received.selector,
             "unsafe recipient"
         );
@@ -172,7 +185,12 @@ contract SimpleNFT is ERC721 {
     string public symbol;
 
     event CollectionCreated(address collection, string name, string symbol);
-    event TokenMinted(address collection, address recipient, uint256 tokenId, string tokenUri);
+    event TokenMinted(
+        address collection,
+        address recipient,
+        uint256 tokenId,
+        string tokenUri
+    );
 
     constructor(string memory _name, string memory _symbol) {
         name = _name;
@@ -181,7 +199,11 @@ contract SimpleNFT is ERC721 {
         emit CollectionCreated(address(this), name, symbol);
     }
 
-    function mint(address _to, uint256 _tokenId, string memory _tokenUri) public {
+    function mint(
+        address _to,
+        uint256 _tokenId,
+        string memory _tokenUri
+    ) public {
         _mint(_to, _tokenId);
         emit TokenMinted(address(this), _to, _tokenId, _tokenUri);
     }
