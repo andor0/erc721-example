@@ -106,7 +106,7 @@ async fn event_listener(state: SharedState) -> Result<(), web3::Error> {
 
     (&mut sub)
         .for_each(|maybe_log| {
-            println!("Got: {:?}", maybe_log);
+            println!("Got: {maybe_log:?}");
             if let Ok(log) = maybe_log {
                 if let Ok(event) = Event::from_log(log) {
                     state.write().unwrap().events.push(event)
