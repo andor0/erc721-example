@@ -15,11 +15,17 @@ contract SimpleNFT is ERC721 {
     // Mapping from collection address to collection symbol
     mapping(address => string) internal _collections;
 
-    constructor() ERC721("MyNFT", "MNFT") {
-    }
+    constructor() ERC721("MyNFT", "MNFT") {}
 
-    function createNewCollection(address _collection, string memory _name, string memory _symbol) public {
-        require(abi.encodePacked(_collections[_collection]).length == 0, "the collection exists");
+    function createNewCollection(
+        address _collection,
+        string memory _name,
+        string memory _symbol
+    ) public {
+        require(
+            abi.encodePacked(_collections[_collection]).length == 0,
+            "the collection exists"
+        );
         _collections[_collection] = _symbol;
         emit CollectionCreated(_collection, _name, _symbol);
     }
@@ -30,7 +36,10 @@ contract SimpleNFT is ERC721 {
         uint256 _tokenId,
         string memory _tokenUri
     ) public {
-        require(abi.encodePacked(_collections[_collection]).length > 0, "the collection does not find");
+        require(
+            abi.encodePacked(_collections[_collection]).length > 0,
+            "the collection does not find"
+        );
         _mint(_to, _tokenId);
         emit TokenMinted(_collection, _to, _tokenId, _tokenUri);
     }
