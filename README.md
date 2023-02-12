@@ -30,3 +30,9 @@ npx truffle migrate
 ```bash
 make fmt
 ```
+
+## Run tests
+
+```bash
+make run-tests
+```
