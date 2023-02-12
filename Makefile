@@ -3,4 +3,4 @@ fmt:
 	cd backend && cargo fmt
 
 run-tests:
-	npx hardhat test
+	cd chain && npx hardhat test
