@@ -1,6 +1,6 @@
 fmt:
-	npx prettier --write 'contracts/**/*.sol'
-	cd backend && cargo fmt
+	(cd chain && npx prettier --write 'contracts/**/*.sol')
+	(cd backend && cargo fmt)
 
 run-tests:
 	cd chain && npx hardhat test
