@@ -1,37 +1,54 @@
-# 
+# erc721-example
 
-## Install dependencies
+## Contract
 
-```bash
-npm install truffle
-```
-
-## Run Ganache
+### Install dependencies
 
 ```bash
-docker run --rm -ti -p8545:8545 trufflesuite/ganache-cli:latest
+cd chain
+npm install
 ```
 
-## Run backend server
+### Compilation
 
+```bash
+cd chain
+npx hardhat compile
 ```
+
+### Tests
+
+```bash
+cd chain
+npx hardhat test
+```
+
+### Deploy
+
+```bash
+cd chain
+npx hardhat run ./scripts/deploy.js --network localhost
+```
+
+## Backend
+
+### Compile and Run
+
+```bash
 cd backend
 cargo run
 ```
 
-## Deploy smart-contract
 
-```bash
-npx truffle migrate
-```
+## Development
 
-## Formatting
+### Formatting
 
 ```bash
 make fmt
 ```
 
-## Run tests
+### Run tests
 
 ```bash
 make run-tests
