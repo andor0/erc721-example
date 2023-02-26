@@ -6,6 +6,7 @@ services:
     build:
       context: chain
       dockerfile: Dockerfile
+    restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8545"]
       interval: 30s
@@ -18,7 +19,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - hardhat-node
-    restart: "on-failure"
+    restart: on-failure
     entrypoint:
       - /usr/local/bin/npx
     command:
@@ -34,6 +35,7 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    restart: always
     depends_on:
       - hardhat-node
     environment:
@@ -45,3 +47,4 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+    restart: always
