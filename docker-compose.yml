@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  hardhat-node:
+    ports:
+      - 8545:8545
+    build:
+      context: chain
+      dockerfile: Dockerfile
+  
+  deploy-contract:
+    build:
+      context: chain
+      dockerfile: Dockerfile
+    depends_on:
+      - hardhat-node
+    restart: "no"
+    entrypoint:
+      - /usr/local/bin/npx
+    command:
+      - hardhat
+      - run
+      - scripts/deploy.js
+      - --network
+      - docker
+
+  backend:
+    ports:
+      - 4000:4000
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    depends_on:
+      - hardhat-node
+    environment:
+      - NODE_URL=ws://hardhat-node:8545
+
+  frontend:
+    ports:
+      - 3000:3000
+    build:
+      context: frontend
+      dockerfile: Dockerfile
