@@ -6,7 +6,7 @@ services:
     build:
       context: chain
       dockerfile: Dockerfile
-  
+
   deploy-contract:
     build:
       context: chain
