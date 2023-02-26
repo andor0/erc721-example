@@ -12,6 +12,7 @@ use web3::{
     futures::{future, StreamExt},
     types::{FilterBuilder, H256},
 };
+use websocket::client::ClientBuilder;
 
 // web3.utils.keccak256('CollectionCreated(address,string,string)')
 const TOPIC_COLLECTION_CREATED: H256 = H256(hex!(
@@ -85,9 +86,15 @@ type SharedState = Arc<RwLock<AppState>>;
 
 async fn event_listener(state: SharedState) -> Result<(), web3::Error> {
     let node_url = std::env::var("NODE_URL").unwrap_or_else(|_| "ws://localhost:8545".to_string());
+    println!("Trying to connect to {}", node_url);
+    let _ = ClientBuilder::new(&node_url)
+        .expect("can not create a new client")
+        .add_protocol("rust-websocket")
+        .connect_insecure()
+        .expect("the node isn't available");
+
     let ws = web3::transports::WebSocket::new(&node_url).await?;
     let web3 = web3::Web3::new(ws.clone());
-    println!("Trying to connect to {}", node_url);
     let mut sub = web3
         .eth_subscribe()
         .subscribe_logs(

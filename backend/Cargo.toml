@@ -16,3 +16,4 @@ tokio = { version = "1.25.0", features = [ "sync" ] }
 tracing = "0.1.37"
 tracing-subscriber = "0.3.16"
 web3 = "0.18.0"
+websocket = "0.26.5"
