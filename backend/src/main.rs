@@ -84,7 +84,8 @@ struct AppState {
 type SharedState = Arc<RwLock<AppState>>;
 
 async fn event_listener(state: SharedState) -> Result<(), web3::Error> {
-    let ws = web3::transports::WebSocket::new("ws://localhost:8545").await?;
+    let node_url = std::env::var("NODE_URL").unwrap_or_else(|_| "ws://localhost:8545".to_string());
+    let ws = web3::transports::WebSocket::new(&node_url).await?;
     let web3 = web3::Web3::new(ws.clone());
     let mut sub = web3
         .eth_subscribe()
@@ -130,7 +131,7 @@ async fn http_server(state: SharedState) {
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`
-    let addr = SocketAddr::from(([127, 0, 0, 1], 4000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 4000));
     tracing::debug!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
