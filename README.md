@@ -1,45 +1,18 @@
 # erc721-example
 
-## Contract
-
-### Install dependencies
+## Run all
 
 ```bash
-cd chain
-npm install
+docker-compose up --remove-orphans
 ```
 
-### Compilation
+## Open Web App
 
 ```bash
-cd chain
-npx hardhat compile
+open http://localhost:3000
 ```
 
-### Tests
-
-```bash
-cd chain
-npx hardhat test
-```
-
-### Deploy
-
-```bash
-cd chain
-npx hardhat run ./scripts/deploy.js --network localhost
-```
-
-## Backend
-
-### Compile and Run
-
-```bash
-cd backend
-cargo run
-```
-
-### Get all events
+## Get all events
 
 ```bash
 $ curl localhost:4000/events 2>/dev/null | jq
