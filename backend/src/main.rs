@@ -1,5 +1,5 @@
 use axum::{extract::State, response::IntoResponse, routing::get, Json, Router};
-use ethabi::ParamType;
+use ethabi::{ParamType, Uint};
 use hex_literal::hex;
 use serde::Serialize;
 use serde_json::json;
@@ -35,7 +35,7 @@ enum Event {
     TokenMinted {
         collection: String,
         recipient: String,
-        token_id: String,
+        token_id: Uint,
         token_uri: String,
     },
 }
@@ -68,7 +68,10 @@ impl Event {
             .map(|params| Event::TokenMinted {
                 collection: params[0].to_string(),
                 recipient: params[1].to_string(),
-                token_id: params[2].to_string(),
+                token_id: params[2]
+                    .clone()
+                    .into_uint()
+                    .expect("can not parse token_id"),
                 token_uri: params[3].to_string(),
             })
             .map_err(|_| Web3Error::Internal),

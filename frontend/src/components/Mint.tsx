@@ -9,7 +9,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import { ethers } from "ethers";
-import { parseUnits } from "ethers/lib/utils";
+import { parseUnits, parseEther } from "ethers/lib/utils";
 import { SimpleNFT as abi } from "abi/SimpleNFT";
 import { Contract } from "ethers";
 import {
@@ -29,7 +29,7 @@ export default function Mint(props: Props) {
   const currentAccount = props.currentAccount;
   const [collection, setCollection] = useState<string>("");
   const [toAddress, setToAddress] = useState<string>("");
-  const [tokenId, setTokenId] = useState<string>("0");
+  const [tokenId, setTokenId] = useState<number>(0);
   const [tokenUri, setTokenUri] = useState<string>("");
 
   async function mint(event: React.FormEvent) {
@@ -44,7 +44,7 @@ export default function Mint(props: Props) {
     );
 
     contract
-      .mint(collection, toAddress, parseUnits(tokenId, 18), tokenUri)
+      .mint(collection, toAddress, tokenId, tokenUri)
       .then((tr: TransactionResponse) => {
         console.log(`TransactionResponse TX hash: ${tr.hash}`);
         tr.wait().then((receipt: TransactionReceipt) => {
@@ -54,7 +54,8 @@ export default function Mint(props: Props) {
       .catch((e: Error) => console.log(e));
   }
 
-  const handleChangeTokenId = (tokenId: string) => setTokenId(tokenId);
+  const handleChangeTokenId = (tokenId: string) =>
+    setTokenId(parseInt(tokenId));
 
   return (
     <form onSubmit={mint}>
